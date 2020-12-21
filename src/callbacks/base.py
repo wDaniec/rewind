@@ -9,6 +9,7 @@ import logging
 import os
 import sys
 import time
+import torch
 
 import gin
 
@@ -19,6 +20,40 @@ from src.utils import parse_gin_config
 
 from pytorch_lightning.callbacks import Callback
 
+
+class EarlyStop(Callback):
+    def __init__(self, path, patience, delta=0.0):
+        self.monitor = "valid_acc"
+        self.path = path
+        self.patience = patience
+        self.current_patience = patience
+        self.delta = delta
+        self.finished = False
+        self.best_acc = 0.0
+        super(Callback, self).__init__()
+
+
+    def on_train_start(self, trainer, pl_module):
+        model_path = os.path.join(self.path, "initial.pth")
+        torch.save(pl_module.model.state_dict(), model_path)
+    
+
+    def on_validation_end(self, trainer, pl_module):
+        if trainer.running_sanity_check:
+            return
+
+        current_acc = trainer.logger_connector.callback_metrics[self.monitor]
+
+        if not self.finished:
+            if current_acc > self.best_acc + self.delta:
+                self.best_acc = current_acc
+                self.current_patience = self.patience
+                model_path = os.path.join(self.path, "best_valid_acc.pth")
+                torch.save(pl_module.model.state_dict(), model_path)
+            else:
+                self.current_patience -= 1
+                if not self.current_patience:
+                    self.finished = True
 
 @gin.configurable
 class MetaSaver(Callback):

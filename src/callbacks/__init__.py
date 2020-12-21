@@ -3,13 +3,14 @@
 Callbacks available in the project
 """
 import logging
-from src.callbacks.base import LRSchedule
+from src.callbacks.base import LRSchedule, EarlyStop
 
 logger = logging.getLogger(__name__)
 
 # Add your callbacks here
 _ALIASES = {
-    "lr_schedule": LRSchedule
+    "lr_schedule": LRSchedule,
+    "earlystop": EarlyStop
 }
 
 def get_callback(clb_name, verbose=1, **kwargs):

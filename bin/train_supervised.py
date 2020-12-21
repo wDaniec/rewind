@@ -27,7 +27,7 @@ def train(save_path, model, batch_size=128, seed=777, callbacks=[], resume=True,
 
     # Create dynamically model
     model = models.__dict__[model]()
-    summary(model)
+    # summary(model)
 
     # Create dynamically callbacks
     callbacks_constructed = []

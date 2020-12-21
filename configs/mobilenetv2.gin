@@ -1,11 +1,10 @@
 # Model
-train.model='SimpleCNN'
-SimpleCNN.n_filters=30
-SimpleCNN.n_dense=128
+train.model='MobileNetV2'
+MobileNetV2.output_size=10
 
 # Train configuration
 train.batch_size=128
-train.callbacks=['lr_schedule', 'meta_saver']
+train.callbacks=['lr_schedule']
 LRSchedule.schedule=[[2, 1.0],[10, 0.1]]
 LRSchedule.base_lr=0.1
 
@@ -13,6 +12,7 @@ LRSchedule.base_lr=0.1
 training_loop.n_epochs=5
 training_loop.resume=False
 training_loop.use_neptune=True
+training_loop.patience=2
 
 # Dataset
 get_dataset.dataset='cifar'
