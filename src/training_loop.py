@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 @gin.configurable
 def training_loop(train, valid, save_path, pl_module, callbacks,
-        n_epochs, checkpoint_callback, patience, use_neptune=False, resume=True, limit_train_batches=None, neptune_tags="", neptune_name=""):
+        n_epochs, checkpoint_callback, patience=10000, use_neptune=False, resume=True, limit_train_batches=None, neptune_tags="", neptune_name=""):
     """
     Largely model/application agnostic training code.
     """

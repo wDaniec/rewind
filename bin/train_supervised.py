@@ -15,6 +15,8 @@ from src.utils import summary, acc, gin_wrap, parse_gin_config
 from src.modules import supervised_training
 from src import models
 from src.training_loop import training_loop
+import torchvision
+import torch
 
 from pytorch_lightning.callbacks import ModelCheckpoint
 
@@ -26,6 +28,7 @@ def train(save_path, model, batch_size=128, seed=777, callbacks=[], resume=True,
     train, valid, test, meta_data = get_dataset(batch_size=batch_size, seed=seed)
 
     # Create dynamically model
+    # repair
     model = models.__dict__[model]()
     # summary(model)
 

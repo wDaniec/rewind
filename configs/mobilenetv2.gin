@@ -1,15 +1,14 @@
 # Model
 train.model='MobileNetV2'
-MobileNetV2.output_size=10
 
 # Train configuration
 train.batch_size=128
 train.callbacks=['lr_schedule']
-LRSchedule.schedule=[[2, 1.0],[10, 0.1]]
-LRSchedule.base_lr=0.1
+LRSchedule.schedule=[[2, 1.0], [30, 0.1], [70, 0.01], [120, 0.01]]
+LRSchedule.base_lr=1.0
 
 # Training loop
-training_loop.n_epochs=5
+training_loop.n_epochs=180
 training_loop.resume=False
 training_loop.use_neptune=True
 training_loop.patience=2
